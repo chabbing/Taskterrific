@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskterrific - My Tasks</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <img src="taskterrific-high-resolution-logo-transparent.png" alt="Taskterrific" class="logo-image">
+                </div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="my-tasks.html" class="nav-link">
+                        <i class="fas fa-tasks"></i>
+                        <span>My Tasks</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <h1>My Tasks</h1>
+                    <p>Manage and organize your tasks efficiently</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn-primary" onclick="openAddTaskModal()">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Task</span>
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Filter and Search -->
+            <div class="tasks-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search tasks..." id="searchInput">
+                </div>
+                
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="pending">Pending</button>
+                    <button class="filter-btn" data-filter="completed">Completed</button>
+                    <button class="filter-btn" data-filter="high">High Priority</button>
+                </div>
+            </div>
+            
+            <!-- Tasks List -->
+            <div class="tasks-container">
+                <div class="task-item" data-priority="high" data-status="pending">
+                    <div class="task-checkbox">
+                        <input type="checkbox" id="task1" onchange="toggleTask(this)">
+                        <label for="task1"></label>
+                    </div>
+                    <div class="task-content">
+                        <h4>Complete project proposal</h4>
+                        <p>Prepare detailed project proposal for client presentation</p>
+                        <div class="task-meta">
+                            <span class="task-date"><i class="fas fa-calendar"></i> Today, 5:00 PM</span>
+                            <span class="task-category"><i class="fas fa-tag"></i> Work</span>
+                        </div>
+                    </div>
+                    <div class="task-actions">
+                        <div class="task-priority high">High</div>
+                        <button class="action-btn" onclick="editTask(1)">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteTask(1)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="task-item" data-priority="medium" data-status="pending">
+                    <div class="task-checkbox">
+                        <input type="checkbox" id="task2" onchange="toggleTask(this)">
+                        <label for="task2"></label>
+                    </div>
+                    <div class="task-content">
+                        <h4>Review team feedback</h4>
+                        <p>Go through feedback from team members and implement changes</p>
+                        <div class="task-meta">
+                            <span class="task-date"><i class="fas fa-calendar"></i> Tomorrow, 10:00 AM</span>
+                            <span class="task-category"><i class="fas fa-tag"></i> Review</span>
+                        </div>
+                    </div>
+                    <div class="task-actions">
+                        <div class="task-priority medium">Medium</div>
+                        <button class="action-btn" onclick="editTask(2)">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteTask(2)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="task-item" data-priority="low" data-status="completed">
+                    <div class="task-checkbox">
+                        <input type="checkbox" id="task3" checked onchange="toggleTask(this)">
+                        <label for="task3"></label>
+                    </div>
+                    <div class="task-content">
+                        <h4>Update documentation</h4>
+                        <p>Update project documentation with latest changes</p>
+                        <div class="task-meta">
+                            <span class="task-date"><i class="fas fa-calendar"></i> Friday, 3:00 PM</span>
+                            <span class="task-category"><i class="fas fa-tag"></i> Documentation</span>
+                        </div>
+                    </div>
+                    <div class="task-actions">
+                        <div class="task-priority low">Low</div>
+                        <button class="action-btn" onclick="editTask(3)">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteTask(3)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Add/Edit Task Modal -->
+    <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Task</h3>
+                <button class="close-btn" onclick="closeTaskModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form class="modal-form" id="taskForm">
+                <div class="form-group">
+                    <label for="taskTitle">Task Title</label>
+                    <input type="text" id="taskTitle" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="taskDescription">Description</label>
+                    <textarea id="taskDescription" name="description" rows="3"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskPriority">Priority</label>
+                        <select id="taskPriority" name="priority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="taskCategory">Category</label>
+                        <select id="taskCategory" name="category">
+                            <option value="work">Work</option>
+                            <option value="personal">Personal</option>
+                            <option value="review">Review</option>
+                            <option value="documentation">Documentation</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="taskDate">Due Date</label>
+                    <input type="datetime-local" id="taskDate" name="dueDate">
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeTaskModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
